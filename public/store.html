@@ -1,0 +1,201 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام إدارة المتجر الإلكتروني</title>
+    <link rel="stylesheet" href="store.css">
+</head>
+<body>
+    <!-- شاشة تسجيل الدخول -->
+    <div id="loginScreen" class="screen active">
+        <div class="login-container">
+            <div class="login-header">
+                <h1>🛍️ نظام إدارة المتجر</h1>
+                <p>مرحباً بك في نظام إدارة المتجر الإلكتروني</p>
+            </div>
+            
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="username">اسم المستخدم</label>
+                    <input type="text" id="username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">البريد الإلكتروني</label>
+                    <input type="email" id="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">كلمة المرور</label>
+                    <input type="password" id="password" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">تسجيل الدخول</button>
+            </form>
+            
+            <div id="loginError" class="error-message" style="display: none;"></div>
+        </div>
+    </div>
+
+    <!-- الشاشة الرئيسية -->
+    <div id="mainScreen" class="screen">
+        <header class="main-header">
+            <div class="header-content">
+                <h1>🛍️ نظام إدارة المتجر</h1>
+                <div class="user-info">
+                    <span id="welcomeUser"></span>
+                    <button id="logoutBtn" class="btn btn-secondary">تسجيل خروج</button>
+                </div>
+            </div>
+        </header>
+
+        <nav class="main-nav">
+            <button class="nav-btn active" data-section="products">🛍️ إدارة المنتجات</button>
+            <button class="nav-btn" data-section="orders">📋 إدارة الطلبات</button>
+            <button class="nav-btn" data-section="stats">📊 الإحصائيات</button>
+        </nav>
+
+        <!-- قسم إدارة المنتجات -->
+        <section id="productsSection" class="content-section active">
+            <div class="section-header">
+                <h2>إدارة المنتجات</h2>
+                <button id="addProductBtn" class="btn btn-primary">➕ إضافة منتج جديد</button>
+            </div>
+
+            <div class="products-grid" id="productsGrid">
+                <!-- المنتجات ستظهر هنا -->
+            </div>
+        </section>
+
+        <!-- قسم إدارة الطلبات -->
+        <section id="ordersSection" class="content-section">
+            <div class="section-header">
+                <h2>إدارة الطلبات</h2>
+                <button id="addOrderBtn" class="btn btn-primary">➕ إضافة طلب جديد</button>
+            </div>
+
+            <div class="orders-list" id="ordersList">
+                <!-- الطلبات ستظهر هنا -->
+            </div>
+        </section>
+
+        <!-- قسم الإحصائيات -->
+        <section id="statsSection" class="content-section">
+            <div class="section-header">
+                <h2>الإحصائيات</h2>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>عدد المنتجات</h3>
+                    <div class="stat-number" id="productsCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>عدد الطلبات</h3>
+                    <div class="stat-number" id="ordersCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>إجمالي المبيعات</h3>
+                    <div class="stat-number" id="totalSales">0 ر.س</div>
+                </div>
+                <div class="stat-card">
+                    <h3>عدد المستخدمين النشطين</h3>
+                    <div class="stat-number" id="activeUsers">1</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- نافذة إضافة/تعديل منتج -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="productModalTitle">إضافة منتج جديد</h3>
+                <span class="close" id="closeProductModal">&times;</span>
+            </div>
+
+            <form id="productForm" class="modal-form">
+                <div class="form-group">
+                    <label for="productName">اسم المنتج</label>
+                    <input type="text" id="productName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="productPrice">السعر</label>
+                    <input type="number" id="productPrice" step="0.01" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="productDescription">الوصف</label>
+                    <textarea id="productDescription" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="productCategory">الفئة</label>
+                    <select id="productCategory" required>
+                        <option value="">اختر الفئة</option>
+                        <option value="electronics">إلكترونيات</option>
+                        <option value="clothing">ملابس</option>
+                        <option value="books">كتب</option>
+                        <option value="home">المنزل والحديقة</option>
+                        <option value="sports">رياضة</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">حفظ المنتج</button>
+                    <button type="button" class="btn btn-secondary" id="cancelProduct">إلغاء</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- نافذة إضافة/تعديل طلب -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="orderModalTitle">إضافة طلب جديد</h3>
+                <span class="close" id="closeOrderModal">&times;</span>
+            </div>
+
+            <form id="orderForm" class="modal-form">
+                <div class="form-group">
+                    <label for="customerName">اسم العميل</label>
+                    <input type="text" id="customerName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="customerEmail">البريد الإلكتروني</label>
+                    <input type="email" id="customerEmail" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="orderProduct">المنتج</label>
+                    <select id="orderProduct" required>
+                        <option value="">اختر المنتج</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="orderQuantity">الكمية</label>
+                    <input type="number" id="orderQuantity" min="1" value="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label>السعر الإجمالي</label>
+                    <div id="orderTotal" class="order-total">0 ر.س</div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">حفظ الطلب</button>
+                    <button type="button" class="btn btn-secondary" id="cancelOrder">إلغاء</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="store.js"></script>
+</body>
+</html>
